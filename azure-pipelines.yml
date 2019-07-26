@@ -15,8 +15,11 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+- script:
+
 - script: |
     npm install -g @angular/cli
     npm install
     ng build --prod
+  workingDirectory: $(Agent.BuildDirectory)/angular
   displayName: 'npm install and build'
