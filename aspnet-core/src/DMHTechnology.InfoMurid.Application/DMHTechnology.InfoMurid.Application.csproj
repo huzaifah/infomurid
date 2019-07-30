@@ -13,4 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\DMHTechnology.InfoMurid.Core\DMHTechnology.InfoMurid.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MaklumatAsas\" />
+    <Folder Include="MaklumatAsas\Dto\" />
+  </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@ import { TenantsComponent } from './tenants/tenants.component';
 import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { UnderConstructionComponent } from './underconstruction/underconstruction.component';
+import { TahunAkademikComponent } from './tahunakademik/tahunakademik.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,9 @@ import { UnderConstructionComponent } from './underconstruction/underconstructio
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent },
                     { path: 'underconstruction', component: UnderConstructionComponent },
-                    { path: 'update-password', component: ChangePasswordComponent }
+                    { path: 'update-password', component: ChangePasswordComponent },
+
+                    { path: 'tahunakademik', component: TahunAkademikComponent }
                 ]
             }
         ])

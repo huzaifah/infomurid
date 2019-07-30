@@ -20,6 +20,10 @@ import { AboutComponent } from '@app/about/about.component';
 
 import { UnderConstructionComponent } from '@app/underconstruction/underconstruction.component';
 
+// tahun akademik
+import { TahunAkademikComponent } from '@app/tahunakademik/tahunakademik.component';
+import { CreateEditTahunAkademikDialogComponent } from '@app/tahunakademik/create-edit-tahunakademik/create-edit-tahunakademik-dialog.component';
+
 import { TopBarComponent } from '@app/layout/topbar.component';
 import { TopBarLanguageSwitchComponent } from '@app/layout/topbar-languageswitch.component';
 import { SideBarUserAreaComponent } from '@app/layout/sidebar-user-area.component';
@@ -66,7 +70,10 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
     EditUserDialogComponent,
     ChangePasswordComponent,
     ResetPasswordDialogComponent,
-    UnderConstructionComponent
+    UnderConstructionComponent,
+    // tahun akademik
+    TahunAkademikComponent,
+    CreateEditTahunAkademikDialogComponent
   ],
   imports: [
     CommonModule,
@@ -92,7 +99,9 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
     // users
     CreateUserDialogComponent,
     EditUserDialogComponent,
-    ResetPasswordDialogComponent
+    ResetPasswordDialogComponent,
+    // tahun akademik
+    CreateEditTahunAkademikDialogComponent
   ]
 })
 export class AppModule {}
