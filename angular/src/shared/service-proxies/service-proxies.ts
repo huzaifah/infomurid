@@ -27,6 +27,62 @@ export class AcademicYearServiceServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: CreateTahunAkademikDto | null | undefined): Observable<TahunAkademikDto> {
+        let url_ = this.baseUrl + "/api/services/app/AcademicYearService/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<TahunAkademikDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TahunAkademikDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<TahunAkademikDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TahunAkademikDto.fromJS(resultData200) : new TahunAkademikDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TahunAkademikDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -141,62 +197,6 @@ export class AcademicYearServiceServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfTahunAkademikDto>(<any>null);
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
-    create(input: CreateTahunAkademikDto | null | undefined): Observable<TahunAkademikDto> {
-        let url_ = this.baseUrl + "/api/services/app/AcademicYearService/Create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(<any>response_);
-                } catch (e) {
-                    return <Observable<TahunAkademikDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<TahunAkademikDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<TahunAkademikDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? TahunAkademikDto.fromJS(resultData200) : new TahunAkademikDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<TahunAkademikDto>(<any>null);
     }
 
     /**
@@ -427,6 +427,294 @@ export class AccountServiceProxy {
             }));
         }
         return _observableOf<RegisterOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class ClassServiceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: CreateKelasDto | null | undefined): Observable<KelasDto> {
+        let url_ = this.baseUrl + "/api/services/app/ClassService/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<KelasDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<KelasDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<KelasDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? KelasDto.fromJS(resultData200) : new KelasDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<KelasDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | null | undefined): Observable<KelasDto> {
+        let url_ = this.baseUrl + "/api/services/app/ClassService/Get?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<KelasDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<KelasDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<KelasDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? KelasDto.fromJS(resultData200) : new KelasDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<KelasDto>(<any>null);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(keyword: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfKelasDto> {
+        let url_ = this.baseUrl + "/api/services/app/ClassService/GetAll?";
+        if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfKelasDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfKelasDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfKelasDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfKelasDto.fromJS(resultData200) : new PagedResultDtoOfKelasDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfKelasDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    update(input: KelasDto | null | undefined): Observable<KelasDto> {
+        let url_ = this.baseUrl + "/api/services/app/ClassService/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<KelasDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<KelasDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<KelasDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? KelasDto.fromJS(resultData200) : new KelasDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<KelasDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ClassService/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -1980,6 +2268,61 @@ export class UserServiceProxy {
     }
 }
 
+export class CreateTahunAkademikDto implements ICreateTahunAkademikDto {
+    year: number;
+    tenantId: number;
+    isLocked: boolean;
+    id: number | undefined;
+
+    constructor(data?: ICreateTahunAkademikDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.year = data["year"];
+            this.tenantId = data["tenantId"];
+            this.isLocked = data["isLocked"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateTahunAkademikDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateTahunAkademikDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["year"] = this.year;
+        data["tenantId"] = this.tenantId;
+        data["isLocked"] = this.isLocked;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CreateTahunAkademikDto {
+        const json = this.toJSON();
+        let result = new CreateTahunAkademikDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateTahunAkademikDto {
+    year: number;
+    tenantId: number;
+    isLocked: boolean;
+    id: number | undefined;
+}
+
 export class TahunAkademikDto implements ITahunAkademikDto {
     year: number;
     tenantId: number;
@@ -2092,61 +2435,6 @@ export class PagedResultDtoOfTahunAkademikDto implements IPagedResultDtoOfTahunA
 export interface IPagedResultDtoOfTahunAkademikDto {
     totalCount: number | undefined;
     items: TahunAkademikDto[] | undefined;
-}
-
-export class CreateTahunAkademikDto implements ICreateTahunAkademikDto {
-    year: number;
-    tenantId: number;
-    isLocked: boolean;
-    id: number | undefined;
-
-    constructor(data?: ICreateTahunAkademikDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.year = data["year"];
-            this.tenantId = data["tenantId"];
-            this.isLocked = data["isLocked"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): CreateTahunAkademikDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateTahunAkademikDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["year"] = this.year;
-        data["tenantId"] = this.tenantId;
-        data["isLocked"] = this.isLocked;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): CreateTahunAkademikDto {
-        const json = this.toJSON();
-        let result = new CreateTahunAkademikDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICreateTahunAkademikDto {
-    year: number;
-    tenantId: number;
-    isLocked: boolean;
-    id: number | undefined;
 }
 
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
@@ -2343,6 +2631,187 @@ export class RegisterOutput implements IRegisterOutput {
 
 export interface IRegisterOutput {
     canLogin: boolean | undefined;
+}
+
+export class CreateKelasDto implements ICreateKelasDto {
+    code: string;
+    name: string;
+    tenantId: number;
+    tahap: number;
+    id: number | undefined;
+
+    constructor(data?: ICreateKelasDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.name = data["name"];
+            this.tenantId = data["tenantId"];
+            this.tahap = data["tahap"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateKelasDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateKelasDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["name"] = this.name;
+        data["tenantId"] = this.tenantId;
+        data["tahap"] = this.tahap;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CreateKelasDto {
+        const json = this.toJSON();
+        let result = new CreateKelasDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateKelasDto {
+    code: string;
+    name: string;
+    tenantId: number;
+    tahap: number;
+    id: number | undefined;
+}
+
+export class KelasDto implements IKelasDto {
+    code: string;
+    name: string;
+    tenantId: number;
+    creationTime: moment.Moment | undefined;
+    tahap: number | undefined;
+    tahapText: string | undefined;
+    id: number | undefined;
+
+    constructor(data?: IKelasDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.name = data["name"];
+            this.tenantId = data["tenantId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.tahap = data["tahap"];
+            this.tahapText = data["tahapText"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): KelasDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new KelasDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["name"] = this.name;
+        data["tenantId"] = this.tenantId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["tahap"] = this.tahap;
+        data["tahapText"] = this.tahapText;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): KelasDto {
+        const json = this.toJSON();
+        let result = new KelasDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IKelasDto {
+    code: string;
+    name: string;
+    tenantId: number;
+    creationTime: moment.Moment | undefined;
+    tahap: number | undefined;
+    tahapText: string | undefined;
+    id: number | undefined;
+}
+
+export class PagedResultDtoOfKelasDto implements IPagedResultDtoOfKelasDto {
+    totalCount: number | undefined;
+    items: KelasDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfKelasDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(KelasDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfKelasDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfKelasDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): PagedResultDtoOfKelasDto {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfKelasDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfKelasDto {
+    totalCount: number | undefined;
+    items: KelasDto[] | undefined;
 }
 
 export class ChangeUiThemeInput implements IChangeUiThemeInput {

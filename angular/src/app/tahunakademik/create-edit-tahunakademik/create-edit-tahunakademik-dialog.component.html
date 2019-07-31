@@ -1,5 +1,6 @@
 <form autocomplete="off" #createTahunAkademikModal="ngForm" (ngSubmit)="save()">
-    <h1 mat-dialog-title>{{ "CreateNewTahunAkademik" | localize }}</h1>
+    <h1 mat-dialog-title *ngIf="tahunAkademik.id === undefined">{{ "CreateNewTahunAkademik" | localize }}</h1>
+    <h1 mat-dialog-title *ngIf="tahunAkademik.id > 0">{{ "EditTahunAkademik" | localize }}</h1>
     <mat-dialog-content style="width:800px;height:300px;">
       <!-- <mat-tab-group>
         <mat-tab [label]="'TahunAkademikDetails' | localize">

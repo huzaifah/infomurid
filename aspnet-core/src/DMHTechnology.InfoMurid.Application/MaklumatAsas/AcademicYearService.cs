@@ -16,8 +16,9 @@ namespace DMHTechnology.InfoMurid.MaklumatAsas
     {
         private readonly IAbpSession _abpSession;
 
-        public AcademicYearService(IRepository<TahunAkademik, int> repository) : base(repository)
+        public AcademicYearService(IRepository<TahunAkademik, int> repository, IAbpSession abpSession) : base(repository)
         {
+            _abpSession = abpSession;
         }
 
         protected override IQueryable<TahunAkademik> CreateFilteredQuery(PagedTahunAkademikResultRequestDto input)

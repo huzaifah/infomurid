@@ -1,0 +1,49 @@
+<form autocomplete="off" #createKelasModal="ngForm" (ngSubmit)="save()">
+    <h1 mat-dialog-title *ngIf="kelas.id === undefined">{{ "CreateNewKelas" | localize }}</h1>
+    <h1 mat-dialog-title *ngIf="kelas.id > 0">{{ "EditKelas" | localize }}</h1>
+    <mat-dialog-content style="width:800px;height:300px;">
+          <div class="row-fluid">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input
+                  matInput
+                  name="code"
+                  [placeholder]="'Code' | localize"
+                  [(ngModel)]="kelas.code"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <input
+                  matInput
+                  name="name"
+                  [placeholder]="'Name' | localize"
+                  [(ngModel)]="kelas.name"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-select [placeholder]="l('Tahap')" [compareWith]="compareTahap" [(ngModel)]="kelas.tahap" name="tahap">
+                    <mat-option value="1">Menengah Rendah</mat-option>
+                    <mat-option value="2">Menengah Atas</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+    </mat-dialog-content>
+    <div mat-dialog-actions align="end">
+      <button mat-button type="button" [disabled]="saving" (click)="close(false)">
+        {{ "Cancel" | localize }}
+      </button>
+      <button
+        mat-flat-button
+        type="submit"
+        flex="15"
+        color="primary"
+        [disabled]="!createKelasModal.form.valid || saving"
+      >
+        {{ "Save" | localize }}
+      </button>
+    </div>
+  </form>
+  

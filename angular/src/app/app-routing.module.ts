@@ -10,6 +10,7 @@ import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { UnderConstructionComponent } from './underconstruction/underconstruction.component';
 import { TahunAkademikComponent } from './tahunakademik/tahunakademik.component';
+import { KelasComponent } from './kelas/kelas.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { TahunAkademikComponent } from './tahunakademik/tahunakademik.component'
                     { path: 'underconstruction', component: UnderConstructionComponent },
                     { path: 'update-password', component: ChangePasswordComponent },
 
-                    { path: 'tahunakademik', component: TahunAkademikComponent }
+                    { path: 'tahunakademik', component: TahunAkademikComponent },
+                    { path: 'kelas', component: KelasComponent }
                 ]
             }
         ])

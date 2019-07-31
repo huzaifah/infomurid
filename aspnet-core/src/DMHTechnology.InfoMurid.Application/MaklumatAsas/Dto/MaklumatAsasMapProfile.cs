@@ -9,6 +9,8 @@ namespace DMHTechnology.InfoMurid.MaklumatAsas.Dto
         {
             CreateMap<TahunAkademikDto, TahunAkademik>();
             CreateMap<CreateTahunAkademikDto, TahunAkademik>();
+            CreateMap<KelasDto, Kelas>();
+            CreateMap<CreateKelasDto, Kelas>();
         }
     }
 }
