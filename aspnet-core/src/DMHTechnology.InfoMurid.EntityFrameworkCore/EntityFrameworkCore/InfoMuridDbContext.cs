@@ -12,6 +12,8 @@ namespace DMHTechnology.InfoMurid.EntityFrameworkCore
         /* Define a DbSet for each entity of the application */
         public virtual DbSet<TahunAkademik> AcademicYears { get; set; }
         public virtual DbSet<Kelas> Classes { get; set; }
+        public virtual DbSet<Level> Levels { get; set; }
+        public virtual DbSet<LevelLabel> LevelLabels { get; set; }
         
         public InfoMuridDbContext(DbContextOptions<InfoMuridDbContext> options)
             : base(options)

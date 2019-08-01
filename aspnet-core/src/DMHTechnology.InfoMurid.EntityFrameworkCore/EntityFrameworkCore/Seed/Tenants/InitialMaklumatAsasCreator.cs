@@ -78,6 +78,36 @@ namespace DMHTechnology.InfoMurid.EntityFrameworkCore.Seed.Tenants
                 });
             }
 
+            if (!_context.Levels.Any())
+            {
+                _context.Levels.Add(new Level { Code = "T1", Name = "Tingkatan 1" });
+                _context.Levels.Add(new Level { Code = "T2", Name = "Tingkatan 2" });
+                _context.Levels.Add(new Level { Code = "T3", Name = "Tingkatan 3" });
+                _context.Levels.Add(new Level { Code = "T4", Name = "Tingkatan 4" });
+                _context.Levels.Add(new Level { Code = "T5", Name = "Tingkatan 5" });
+                _context.Levels.Add(new Level { Code = "T6R", Name = "Tingkatan 6 Rendah" });
+                _context.Levels.Add(new Level { Code = "T6A", Name = "Tingkatan 6 Atas" });
+
+                _context.SaveChanges();
+            }
+            
+            if(!_context.LevelLabels.Any())
+            {
+                _context.LevelLabels.Add(new LevelLabel
+                {
+                    Name = "Tingkatan 1",
+                    TenantId = 1,
+                    Level = _context.Levels.Single(l => l.Code == "T1")
+                });
+
+                _context.LevelLabels.Add(new LevelLabel
+                {
+                    Name = "Tingkatan 2",
+                    TenantId = 1,
+                    Level = _context.Levels.Single(l => l.Code == "T2")
+                });
+            }
+
             _context.SaveChanges();
         }
 

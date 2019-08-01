@@ -1,22 +1,18 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 
 namespace DMHTechnology.InfoMurid.MaklumatAsas
-{ 
-    [Table("Kelas")]
-    public class Kelas : FullAuditedEntity<long>, IMustHaveTenant
+{
+    [Table("LevelLabel")]
+    public class LevelLabel : FullAuditedEntity<long>, IMustHaveTenant
     {
-        [Required]
-        public string Code { get; set; }
-
-        [Required]
         public string Name { get; set; }
         public int TenantId { get; set; }
 
-        [Required]
-        public Tahap Tahap { get; set; }
+        [ForeignKey("LevelId")]
+        public virtual Level Level { get; set; }
+        public virtual int LevelId { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace DMHTechnology.InfoMurid.MaklumatAsas
     public class TahunAkademik : FullAuditedEntity, IMustHaveTenant
     {
         [Required]
-        public virtual int Year { get; set; }
+        public int Year { get; set; }
         public int TenantId { get; set; }
         public bool IsLocked { get; set; }
     }
