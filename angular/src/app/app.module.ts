@@ -46,6 +46,8 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 import { KelasComponent } from './kelas/kelas.component';
 import { CreateEditKelasDialogComponent } from './kelas/create-edit-kelas/create-edit-kelas-dialog.component';
+import { LevelLabelComponent } from './levellabel/levellabel.component';
+import { CreateEditLevelLabelDialogComponent } from './levellabel/create-edit-levellabel/create-edit-levellabel-dialog.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,9 @@ import { CreateEditKelasDialogComponent } from './kelas/create-edit-kelas/create
     // kelas
     KelasComponent,
     CreateEditKelasDialogComponent,
+    // level label
+    LevelLabelComponent,
+    CreateEditLevelLabelDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -108,7 +113,9 @@ import { CreateEditKelasDialogComponent } from './kelas/create-edit-kelas/create
     // tahun akademik
     CreateEditTahunAkademikDialogComponent,
     // kelas
-    CreateEditKelasDialogComponent
+    CreateEditKelasDialogComponent,
+    // level label
+    CreateEditLevelLabelDialogComponent
   ]
 })
 export class AppModule {}

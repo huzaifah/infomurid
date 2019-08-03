@@ -12,11 +12,11 @@ using DMHTechnology.InfoMurid.MaklumatAsas.Dto;
 
 namespace DMHTechnology.InfoMurid.MaklumatAsas
 {
-    public class AcademicYearService : AsyncCrudAppService<TahunAkademik, TahunAkademikDto, int, PagedTahunAkademikResultRequestDto, CreateTahunAkademikDto, TahunAkademikDto>, IAcademicYearService
+    public class AcademicYearAppService : AsyncCrudAppService<TahunAkademik, TahunAkademikDto, int, PagedTahunAkademikResultRequestDto, CreateTahunAkademikDto, TahunAkademikDto>, IAcademicYearAppService
     {
         private readonly IAbpSession _abpSession;
 
-        public AcademicYearService(IRepository<TahunAkademik, int> repository, IAbpSession abpSession) : base(repository)
+        public AcademicYearAppService(IRepository<TahunAkademik, int> repository, IAbpSession abpSession) : base(repository)
         {
             _abpSession = abpSession;
         }

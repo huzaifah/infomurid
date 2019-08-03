@@ -4,7 +4,7 @@ using DMHTechnology.InfoMurid.MaklumatAsas.Dto;
 
 namespace DMHTechnology.InfoMurid.MaklumatAsas
 {
-    public interface IClassService : IAsyncCrudAppService<KelasDto, long, PagedKelasResultRequestDto, CreateKelasDto, KelasDto>
+    public interface IClassAppService : IAsyncCrudAppService<KelasDto, long, PagedKelasResultRequestDto, CreateKelasDto, KelasDto>
     {
         
     }

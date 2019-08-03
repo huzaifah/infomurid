@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { PagedListingComponentBase, PagedRequestDto } from 'shared/paged-listing-component-base';
-import { AcademicYearServiceServiceProxy, TahunAkademikDto, PagedResultDtoOfTahunAkademikDto } from '@shared/service-proxies/service-proxies';
+import { AcademicYearServiceProxy, TahunAkademikDto, PagedResultDtoOfTahunAkademikDto } from '@shared/service-proxies/service-proxies';
 import { CreateEditTahunAkademikDialogComponent } from './create-edit-tahunakademik/create-edit-tahunakademik-dialog.component';
 import { Moment } from 'moment';
 
@@ -30,7 +30,7 @@ export class TahunAkademikComponent extends PagedListingComponentBase<TahunAkade
 
     constructor(
         injector: Injector,
-        private _academicYearService: AcademicYearServiceServiceProxy,
+        private _academicYearService: AcademicYearServiceProxy,
         private _dialog: MatDialog
     ) {
         super(injector);

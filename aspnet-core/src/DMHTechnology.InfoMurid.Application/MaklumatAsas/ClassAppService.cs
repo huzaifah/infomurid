@@ -11,11 +11,11 @@ using DMHTechnology.InfoMurid.MaklumatAsas.Dto;
 
 namespace DMHTechnology.InfoMurid.MaklumatAsas
 {
-    public class ClassService : AsyncCrudAppService<Kelas, KelasDto, long, PagedKelasResultRequestDto, CreateKelasDto, KelasDto>, IClassService
+    public class ClassAppService : AsyncCrudAppService<Kelas, KelasDto, long, PagedKelasResultRequestDto, CreateKelasDto, KelasDto>, IClassAppService
     {
         private readonly IAbpSession _abpSession;
 
-        public ClassService(IRepository<Kelas, long> repository, IAbpSession abpSession) : base(repository)
+        public ClassAppService(IRepository<Kelas, long> repository, IAbpSession abpSession) : base(repository)
         {
             _abpSession = abpSession;
         }

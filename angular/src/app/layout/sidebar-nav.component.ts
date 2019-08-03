@@ -22,7 +22,7 @@ export class SideBarNavComponent extends AppComponentBase {
             new MenuItem('Asas', '', 'menu', '', [
                 new MenuItem('Tahun Akademik', '', '', '/app/tahunakademik'),
                 new MenuItem('Kelas', '', '', '/app/kelas'),
-                new MenuItem('Tahap', '', '', '/app/underconstruction'),
+                new MenuItem('Tahap', '', '', '/app/levellabel'),
                 new MenuItem('Subjek', '', '', '/app/underconstruction'),
                 new MenuItem('Guru', '', '', '/app/underconstruction'),
                 new MenuItem('Guru Matapelajaran', '', '', '/app/underconstruction'),

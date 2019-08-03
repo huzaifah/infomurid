@@ -3,8 +3,7 @@ import { MatDialog } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { PagedListingComponentBase, PagedRequestDto } from 'shared/paged-listing-component-base';
-import { ClassServiceServiceProxy, PagedResultDtoOfKelasDto, KelasDto } from '@shared/service-proxies/service-proxies';
-//import { CreateEditTahunAkademikDialogComponent } from './create-edit-tahunakademik/create-edit-tahunakademik-dialog.component';
+import { ClassServiceProxy, PagedResultDtoOfKelasDto, KelasDto } from '@shared/service-proxies/service-proxies';
 import { Moment } from 'moment';
 import { CreateEditKelasDialogComponent } from './create-edit-kelas/create-edit-kelas-dialog.component';
 
@@ -29,7 +28,7 @@ export class KelasComponent extends PagedListingComponentBase<KelasDto> {
 
     constructor(
         injector: Injector,
-        private _classService: ClassServiceServiceProxy,
+        private _classService: ClassServiceProxy,
         private _dialog: MatDialog
     ) {
         super(injector);

@@ -4,13 +4,14 @@ import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
-    ClassServiceProxy,
-    CreateKelasDto,
-    KelasDto
+    LevelLabelServiceProxy,
+    CreateLevelLabelDto,
+    LevelLabelDto,
+    LevelDto
 } from '@shared/service-proxies/service-proxies';
 
 @Component({
-    templateUrl: './create-edit-kelas-dialog.component.html',
+    templateUrl: './create-edit-levellabel-dialog.component.html',
     styles: [
         `
       mat-form-field {
@@ -22,15 +23,16 @@ import {
     `
     ]
 })
-export class CreateEditKelasDialogComponent extends AppComponentBase
+export class CreateEditLevelLabelDialogComponent extends AppComponentBase
     implements OnInit {
     saving = false;
-    kelas: CreateKelasDto = new CreateKelasDto();
+    levellabel: CreateLevelLabelDto = new CreateLevelLabelDto();
+    levels: LevelDto[] = [];
 
     constructor(
         injector: Injector,
-        public _classService: ClassServiceProxy,
-        private _dialogRef: MatDialogRef<CreateEditKelasDialogComponent>,
+        public _levelLabelService: LevelLabelServiceProxy,
+        private _dialogRef: MatDialogRef<CreateEditLevelLabelDialogComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) private _id: number
     ) {
         super(injector);
@@ -40,13 +42,17 @@ export class CreateEditKelasDialogComponent extends AppComponentBase
         if (this._id === undefined || this._id <= 0) {
 
         } else {
-            this._classService.get(this._id).subscribe(result => {
-                this.kelas = result;
+            this._levelLabelService.get(this._id).subscribe(result => {
+                this.levellabel = result;
             });
         }
+
+        this._levelLabelService.getAllLevels().subscribe(result => {
+            this.levels = result;
+        })
     }
 
-    compareTahap = (val1: string, val2: number) => {
+    compareLevel = (val1: string, val2: number) => {
         if (val1 && val2) {
             return val1 === val2.toString();
         } else {
@@ -59,8 +65,8 @@ export class CreateEditKelasDialogComponent extends AppComponentBase
         this.saving = true;
 
         if (this._id === undefined || this._id <= 0) {
-            this._classService
-                .create(this.kelas)
+            this._levelLabelService
+                .create(this.levellabel)
                 .pipe(
                     finalize(() => {
                         this.saving = false;
@@ -71,14 +77,13 @@ export class CreateEditKelasDialogComponent extends AppComponentBase
                     this.close(true);
                 });
         } else {
-            let kelasDto = new KelasDto();
-            kelasDto.id = this.kelas.id;
-            kelasDto.name = this.kelas.name;
-            kelasDto.code = this.kelas.code;
-            kelasDto.tahap = this.kelas.tahap;
+            let levelLabelDto = new LevelLabelDto();
+            levelLabelDto.id = this.levellabel.id;
+            levelLabelDto.levelId = this.levellabel.levelId;
+            levelLabelDto.name = this.levellabel.name;
 
-            this._classService
-                .update(kelasDto)
+            this._levelLabelService
+                .update(levelLabelDto)
                 .pipe(
                     finalize(() => {
                         this.saving = false;

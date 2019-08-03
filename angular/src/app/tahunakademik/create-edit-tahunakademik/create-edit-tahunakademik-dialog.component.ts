@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
-  AcademicYearServiceServiceProxy,
+  AcademicYearServiceProxy,
   CreateTahunAkademikDto,
   TahunAkademikDto
 } from '@shared/service-proxies/service-proxies';
@@ -29,7 +29,7 @@ export class CreateEditTahunAkademikDialogComponent extends AppComponentBase
 
   constructor(
     injector: Injector,
-    public _academicYearService: AcademicYearServiceServiceProxy,
+    public _academicYearService: AcademicYearServiceProxy,
     private _dialogRef: MatDialogRef<CreateEditTahunAkademikDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private _id: number
   ) {

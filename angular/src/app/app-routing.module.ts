@@ -11,6 +11,7 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { UnderConstructionComponent } from './underconstruction/underconstruction.component';
 import { TahunAkademikComponent } from './tahunakademik/tahunakademik.component';
 import { KelasComponent } from './kelas/kelas.component';
+import { LevelLabelComponent } from './levellabel/levellabel.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { KelasComponent } from './kelas/kelas.component';
                     { path: 'update-password', component: ChangePasswordComponent },
 
                     { path: 'tahunakademik', component: TahunAkademikComponent },
-                    { path: 'kelas', component: KelasComponent }
+                    { path: 'kelas', component: KelasComponent },
+                    { path: 'levellabel', component: LevelLabelComponent },
                 ]
             }
         ])

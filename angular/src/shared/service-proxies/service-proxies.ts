@@ -16,7 +16,7 @@ import * as moment from 'moment';
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 @Injectable()
-export class AcademicYearServiceServiceProxy {
+export class AcademicYearServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -31,7 +31,7 @@ export class AcademicYearServiceServiceProxy {
      * @return Success
      */
     create(input: CreateTahunAkademikDto | null | undefined): Observable<TahunAkademikDto> {
-        let url_ = this.baseUrl + "/api/services/app/AcademicYearService/Create";
+        let url_ = this.baseUrl + "/api/services/app/AcademicYear/Create";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -87,7 +87,7 @@ export class AcademicYearServiceServiceProxy {
      * @return Success
      */
     get(id: number | null | undefined): Observable<TahunAkademikDto> {
-        let url_ = this.baseUrl + "/api/services/app/AcademicYearService/Get?";
+        let url_ = this.baseUrl + "/api/services/app/AcademicYear/Get?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -144,7 +144,7 @@ export class AcademicYearServiceServiceProxy {
      * @return Success
      */
     getAll(keyword: string | null | undefined, isLocked: boolean | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfTahunAkademikDto> {
-        let url_ = this.baseUrl + "/api/services/app/AcademicYearService/GetAll?";
+        let url_ = this.baseUrl + "/api/services/app/AcademicYear/GetAll?";
         if (keyword !== undefined)
             url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
         if (isLocked !== undefined)
@@ -204,7 +204,7 @@ export class AcademicYearServiceServiceProxy {
      * @return Success
      */
     update(input: TahunAkademikDto | null | undefined): Observable<TahunAkademikDto> {
-        let url_ = this.baseUrl + "/api/services/app/AcademicYearService/Update";
+        let url_ = this.baseUrl + "/api/services/app/AcademicYear/Update";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -260,7 +260,7 @@ export class AcademicYearServiceServiceProxy {
      * @return Success
      */
     delete(id: number | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/AcademicYearService/Delete?";
+        let url_ = this.baseUrl + "/api/services/app/AcademicYear/Delete?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -431,7 +431,7 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
-export class ClassServiceServiceProxy {
+export class ClassServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -446,7 +446,7 @@ export class ClassServiceServiceProxy {
      * @return Success
      */
     create(input: CreateKelasDto | null | undefined): Observable<KelasDto> {
-        let url_ = this.baseUrl + "/api/services/app/ClassService/Create";
+        let url_ = this.baseUrl + "/api/services/app/Class/Create";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -502,7 +502,7 @@ export class ClassServiceServiceProxy {
      * @return Success
      */
     get(id: number | null | undefined): Observable<KelasDto> {
-        let url_ = this.baseUrl + "/api/services/app/ClassService/Get?";
+        let url_ = this.baseUrl + "/api/services/app/Class/Get?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -558,7 +558,7 @@ export class ClassServiceServiceProxy {
      * @return Success
      */
     getAll(keyword: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfKelasDto> {
-        let url_ = this.baseUrl + "/api/services/app/ClassService/GetAll?";
+        let url_ = this.baseUrl + "/api/services/app/Class/GetAll?";
         if (keyword !== undefined)
             url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
         if (skipCount !== undefined)
@@ -616,7 +616,7 @@ export class ClassServiceServiceProxy {
      * @return Success
      */
     update(input: KelasDto | null | undefined): Observable<KelasDto> {
-        let url_ = this.baseUrl + "/api/services/app/ClassService/Update";
+        let url_ = this.baseUrl + "/api/services/app/Class/Update";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -672,7 +672,7 @@ export class ClassServiceServiceProxy {
      * @return Success
      */
     delete(id: number | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/ClassService/Delete?";
+        let url_ = this.baseUrl + "/api/services/app/Class/Delete?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -763,6 +763,352 @@ export class ConfigurationServiceProxy {
     }
 
     protected processChangeUiTheme(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class LevelLabelServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getAllLevels(): Observable<LevelDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LevelLabel/GetAllLevels";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllLevels(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllLevels(<any>response_);
+                } catch (e) {
+                    return <Observable<LevelDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LevelDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllLevels(response: HttpResponseBase): Observable<LevelDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(LevelDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LevelDto[]>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: CreateLevelLabelDto | null | undefined): Observable<LevelLabelDto> {
+        let url_ = this.baseUrl + "/api/services/app/LevelLabel/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<LevelLabelDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LevelLabelDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<LevelLabelDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LevelLabelDto.fromJS(resultData200) : new LevelLabelDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LevelLabelDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | null | undefined): Observable<LevelLabelDto> {
+        let url_ = this.baseUrl + "/api/services/app/LevelLabel/Get?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<LevelLabelDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LevelLabelDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<LevelLabelDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LevelLabelDto.fromJS(resultData200) : new LevelLabelDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LevelLabelDto>(<any>null);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param levelId (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(keyword: string | null | undefined, levelId: number | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfLevelLabelDto> {
+        let url_ = this.baseUrl + "/api/services/app/LevelLabel/GetAll?";
+        if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
+        if (levelId !== undefined)
+            url_ += "LevelId=" + encodeURIComponent("" + levelId) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfLevelLabelDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfLevelLabelDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfLevelLabelDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfLevelLabelDto.fromJS(resultData200) : new PagedResultDtoOfLevelLabelDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfLevelLabelDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    update(input: LevelLabelDto | null | undefined): Observable<LevelLabelDto> {
+        let url_ = this.baseUrl + "/api/services/app/LevelLabel/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<LevelLabelDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LevelLabelDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<LevelLabelDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LevelLabelDto.fromJS(resultData200) : new LevelLabelDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LevelLabelDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LevelLabel/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2855,6 +3201,226 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
 
 export interface IChangeUiThemeInput {
     theme: string;
+}
+
+export class LevelDto implements ILevelDto {
+    code: string | undefined;
+    name: string | undefined;
+    id: number | undefined;
+
+    constructor(data?: ILevelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.name = data["name"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LevelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LevelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["name"] = this.name;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): LevelDto {
+        const json = this.toJSON();
+        let result = new LevelDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILevelDto {
+    code: string | undefined;
+    name: string | undefined;
+    id: number | undefined;
+}
+
+export class CreateLevelLabelDto implements ICreateLevelLabelDto {
+    name: string;
+    tenantId: number;
+    levelId: number;
+    id: number | undefined;
+
+    constructor(data?: ICreateLevelLabelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.tenantId = data["tenantId"];
+            this.levelId = data["levelId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateLevelLabelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateLevelLabelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["tenantId"] = this.tenantId;
+        data["levelId"] = this.levelId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CreateLevelLabelDto {
+        const json = this.toJSON();
+        let result = new CreateLevelLabelDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateLevelLabelDto {
+    name: string;
+    tenantId: number;
+    levelId: number;
+    id: number | undefined;
+}
+
+export class LevelLabelDto implements ILevelLabelDto {
+    name: string;
+    tenantId: number;
+    levelId: number;
+    levelName: string | undefined;
+    id: number | undefined;
+
+    constructor(data?: ILevelLabelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.tenantId = data["tenantId"];
+            this.levelId = data["levelId"];
+            this.levelName = data["levelName"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LevelLabelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LevelLabelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["tenantId"] = this.tenantId;
+        data["levelId"] = this.levelId;
+        data["levelName"] = this.levelName;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): LevelLabelDto {
+        const json = this.toJSON();
+        let result = new LevelLabelDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILevelLabelDto {
+    name: string;
+    tenantId: number;
+    levelId: number;
+    levelName: string | undefined;
+    id: number | undefined;
+}
+
+export class PagedResultDtoOfLevelLabelDto implements IPagedResultDtoOfLevelLabelDto {
+    totalCount: number | undefined;
+    items: LevelLabelDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfLevelLabelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(LevelLabelDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfLevelLabelDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfLevelLabelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): PagedResultDtoOfLevelLabelDto {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfLevelLabelDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfLevelLabelDto {
+    totalCount: number | undefined;
+    items: LevelLabelDto[] | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
